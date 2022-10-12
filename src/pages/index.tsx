@@ -41,7 +41,7 @@ const HomePage: NextPage = () => {
               rightIcon={
                 <FaTimes
                   className="cursor-pointer"
-                  size={24}
+                  size={21}
                   onClick={() => {}}
                 />
               }

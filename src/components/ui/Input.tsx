@@ -34,13 +34,15 @@ const Input: React.FC<InputProps> = ({
     type,
     className: classNames(
       'border-2 border-black border-opacity-30 dark:border-white dark:border-opacity-10 bg-transparent py-[8px] rounded-lg focus:outline-none transition colors opacity hover:border-opacity-40 dark:hover:border-opacity-20 focus:!border-primary duration-300 w-full placeholder-gray-400 placeholder:text-base text-base dark:placeholder-opacity-50',
-      { 'px-10': !!icon, 'px-4': !icon },
+      { 'px-4': !icon && !rightIcon },
+      { 'pl-10 pr-4': !!icon },
+      { 'pl-4 pr-10': !!rightIcon },
       className
     ),
   };
 
   return (
-    <div className={classNames('relative', parentClassName)}>
+    <div className={classNames('w-full relative', parentClassName)}>
       {label && <p className="text-left text-lg mb-2">{label}</p>}
       {icon && (
         <span
