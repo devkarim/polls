@@ -1,0 +1,27 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Poll {
+  id                String     @id @default(cuid())
+  code              String     @unique
+  header            String
+  questions         Question[]
+  supportsMultiVote Boolean?   @default(false)
+}
+
+model Question {
+  id     String  @id @default(cuid())
+  title  String
+  votes  Int?    @default(0)
+  Poll   Poll?   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollId String?
+}
