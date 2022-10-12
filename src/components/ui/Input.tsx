@@ -31,7 +31,7 @@ const Input: React.FC<InputProps> = ({
     value,
     type,
     className: classNames(
-      'border-2 border-black dark:border-white bg-transparent py-[8px] rounded-lg focus:outline-none transition colors opacity dark:hover:border-gray-300 focus:!border-primary duration-300 w-full placeholder-gray-400 placeholder:text-base text-base dark:placeholder-gray-200',
+      'border-2 border-black border-opacity-30 dark:border-white dark:border-opacity-10 bg-transparent py-[8px] rounded-lg focus:outline-none transition colors opacity hover:border-opacity-40 dark:hover:border-opacity-20 focus:!border-primary duration-300 w-full placeholder-gray-400 placeholder:text-base text-base dark:placeholder-gray-200',
       { 'px-10': !!icon, 'px-4': !icon },
       className
     ),
@@ -39,7 +39,7 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className={classNames('relative', parentClassName)}>
-      {label && <p className="text-left mb-1">{label}</p>}
+      {label && <p className="text-left mb-2">{label}</p>}
       {icon && (
         <span
           className={classNames('absolute left-0 px-3 text-lg cursor-text', {
