@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({
         {
           'bg-black text-white dark:text-black dark:bg-white hover:opacity-90 rounded-lg font-medium':
             variant == 'solid',
-          'border-2 border-black hover:bg-black rounded-lg hover:text-white':
+          'border-2 border-black hover:bg-black rounded-lg hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black':
             variant == 'outline',
         },
         className

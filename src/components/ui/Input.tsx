@@ -12,6 +12,7 @@ export interface InputProps extends FieldAttributes<any> {
   className?: string;
   parentClassName?: string;
   icon?: ReactElement;
+  rightIcon?: ReactElement;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,6 +22,7 @@ const Input: React.FC<InputProps> = ({
   onChange,
   type,
   icon,
+  rightIcon,
   parentClassName,
   className,
   form = true,
@@ -31,7 +33,7 @@ const Input: React.FC<InputProps> = ({
     value,
     type,
     className: classNames(
-      'border-2 border-black border-opacity-30 dark:border-white dark:border-opacity-10 bg-transparent py-[8px] rounded-lg focus:outline-none transition colors opacity hover:border-opacity-40 dark:hover:border-opacity-20 focus:!border-primary duration-300 w-full placeholder-gray-400 placeholder:text-base text-base dark:placeholder-gray-200',
+      'border-2 border-black border-opacity-30 dark:border-white dark:border-opacity-10 bg-transparent py-[8px] rounded-lg focus:outline-none transition colors opacity hover:border-opacity-40 dark:hover:border-opacity-20 focus:!border-primary duration-300 w-full placeholder-gray-400 placeholder:text-base text-base dark:placeholder-opacity-50',
       { 'px-10': !!icon, 'px-4': !icon },
       className
     ),
@@ -39,7 +41,7 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className={classNames('relative', parentClassName)}>
-      {label && <p className="text-left mb-2">{label}</p>}
+      {label && <p className="text-left text-lg mb-2">{label}</p>}
       {icon && (
         <span
           className={classNames('absolute left-0 px-3 text-lg cursor-text', {
@@ -54,6 +56,16 @@ const Input: React.FC<InputProps> = ({
         <Field {...inputProps} {...props} />
       ) : (
         <input onChange={(e) => onChange?.(e.target.value)} {...inputProps} />
+      )}
+      {rightIcon && (
+        <span
+          className={classNames('absolute right-0 px-3 text-lg cursor-text', {
+            'top-10': !!label,
+            'top-1/4 bottom-1/4': !label,
+          })}
+        >
+          {rightIcon}
+        </span>
       )}
     </div>
   );

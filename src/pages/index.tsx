@@ -5,6 +5,7 @@ import Input from '../components/ui/Input';
 import Line from '../components/ui/Line';
 import SimpleCard from '../components/ui/SimpleCard';
 import Space from '../components/ui/Space';
+import { FaTimes, FaPlus } from 'react-icons/fa';
 
 interface MyFormValues {
   header: string;
@@ -17,7 +18,7 @@ const HomePage: NextPage = () => {
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
       <h2>Create a poll</h2>
       <Space size="3xl" />
-      <SimpleCard className="p-6">
+      <SimpleCard className="p-6 max-h-[75%] overflow-auto">
         <Formik
           initialValues={initialValues}
           onSubmit={(values, actions) => {
@@ -26,10 +27,37 @@ const HomePage: NextPage = () => {
             actions.setSubmitting(false);
           }}
         >
-          <Form className="flex flex-col items-center">
-            <Input id="header" label="Ask a question" />
-            <Line className="my-6" />
-            <Input id="header" label="Add an answer" />
+          <Form className="flex flex-col items-start">
+            <Input
+              id="header"
+              label="Ask a question"
+              placeholder="Did you say hi to your cat today?"
+            />
+            <Line className="my-6 self-center" />
+            <p className="text-lg mb-2">Add answers</p>
+            <Input
+              id="header"
+              placeholder="Option 1"
+              rightIcon={
+                <FaTimes
+                  className="cursor-pointer"
+                  size={24}
+                  onClick={() => {}}
+                />
+              }
+            />
+            <Space size="xl" />
+            <Button
+              className="flex items-center border-0 !p-2"
+              variant="outline"
+            >
+              <FaPlus
+                className="cursor-pointer mr-2"
+                size={18}
+                onClick={() => {}}
+              />
+              Add option
+            </Button>
             <Space size="2xl" />
             <Button className="w-full">Create</Button>
           </Form>
