@@ -1,11 +1,9 @@
-import { Form, Formik } from 'formik';
 import type { NextPage } from 'next';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import Line from '../components/ui/Line';
 import SimpleCard from '../components/ui/SimpleCard';
 import Space from '../components/ui/Space';
-import { FaTimes, FaPlus } from 'react-icons/fa';
 import { useState } from 'react';
 import MultipleInput from '../components/ui/MultipleInput';
 
