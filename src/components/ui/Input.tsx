@@ -25,7 +25,7 @@ const Input: React.FC<InputProps> = ({
   rightIcon,
   parentClassName,
   className,
-  form = true,
+  form = false,
   ...props
 }) => {
   const inputProps = {
