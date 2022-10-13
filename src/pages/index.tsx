@@ -6,13 +6,37 @@ import Line from '../components/ui/Line';
 import SimpleCard from '../components/ui/SimpleCard';
 import Space from '../components/ui/Space';
 import { FaTimes, FaPlus } from 'react-icons/fa';
+import { useState } from 'react';
+import MultipleInput from '../components/ui/MultipleInput';
 
-interface MyFormValues {
+interface PollCreationData {
   header: string;
+  answers: string[];
 }
 
+const initialPollCreation: PollCreationData = {
+  header: '',
+  answers: [],
+};
+
 const HomePage: NextPage = () => {
-  const initialValues: MyFormValues = { header: '' };
+  const [pollCreation, setPollCreation] =
+    useState<PollCreationData>(initialPollCreation);
+
+  const updateHeader = (header: string) =>
+    setPollCreation((prev) => {
+      return { ...prev, header };
+    });
+
+  const updateAnswers = (answers: string[]) =>
+    setPollCreation((prev) => {
+      console.log(answers);
+      return { ...prev, answers };
+    });
+
+  const createPollClick = () => {
+    console.log(pollCreation);
+  };
 
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
@@ -24,31 +48,19 @@ const HomePage: NextPage = () => {
             id="header"
             label="Ask a question"
             placeholder="Did you say hi to your cat today?"
+            onChange={updateHeader}
           />
           <Line className="my-6 self-center" />
           <p className="text-lg mb-2">Add answers</p>
-          <Input
-            id="header"
-            placeholder="Option 1"
-            rightIcon={
-              <FaTimes
-                className="cursor-pointer"
-                size={21}
-                onClick={() => {}}
-              />
-            }
+          <MultipleInput
+            placeholder="Option"
+            addValueText="Add new answer"
+            onChange={(answers) => updateAnswers(answers)}
           />
-          <Space size="xl" />
-          <Button className="flex items-center border-0 !p-2" variant="outline">
-            <FaPlus
-              className="cursor-pointer mr-2"
-              size={18}
-              onClick={() => {}}
-            />
-            Add answer
-          </Button>
           <Space size="2xl" />
-          <Button className="w-full">Create</Button>
+          <Button className="w-full" onClick={createPollClick}>
+            Create
+          </Button>
         </div>
       </SimpleCard>
     </div>
