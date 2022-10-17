@@ -13,7 +13,7 @@ export const createPoll = (
       header,
       code,
       supportsMultiVote,
-      questions: { create: answersInsertion },
+      answers: { create: answersInsertion },
     },
   });
 };
@@ -21,6 +21,6 @@ export const createPoll = (
 export const fetchPollByCode = (code: string) => {
   return prisma.poll.findFirst({
     where: { code },
-    include: { questions: true },
+    include: { answers: true },
   });
 };
