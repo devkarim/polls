@@ -48,7 +48,6 @@ const MultipleInput: React.FC<MultipleInputProps> = ({
           <Input
             value={v}
             onChange={(newValue) => updateValue(index, newValue)}
-            id="header"
             placeholder={`${placeholder} ${index + 1}`}
             rightIcon={
               values.length > 1 ? (
