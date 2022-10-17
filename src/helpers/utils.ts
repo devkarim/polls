@@ -16,6 +16,7 @@ export const logError = (err: any) => {
   return log(err, 'ERROR');
 };
 
+// Thanks to https://stackoverflow.com/a/3177838/9746922
 export const timeSince = (timestamp: number) => {
   let seconds = Math.floor((Date.now() - timestamp) / 1000);
   let interval = seconds / 31536000;
