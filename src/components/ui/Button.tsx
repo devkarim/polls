@@ -1,6 +1,11 @@
 import classNames from 'classnames';
+import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
-interface ButtonProps {
+interface ButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   width?: ComponentSize;
   type?: 'button' | 'submit' | 'reset';
   variant?: 'solid' | 'outline';
@@ -16,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   className,
   children,
   onClick,
+  ...props
 }) => {
   return (
     <button
@@ -31,6 +37,7 @@ const Button: React.FC<ButtonProps> = ({
         className
       )}
       onClick={onClick}
+      {...props}
     >
       {children}
     </button>

@@ -11,14 +11,14 @@ datasource db {
 }
 
 model Poll {
-  id                String     @id @default(cuid())
-  code              String     @unique
+  id                String   @id @default(cuid())
+  code              String   @unique
   header            String
-  questions         Question[]
-  supportsMultiVote Boolean?   @default(false)
+  answers           Answer[]
+  supportsMultiVote Boolean? @default(false)
 }
 
-model Question {
+model Answer {
   id     String  @id @default(cuid())
   title  String
   votes  Int?    @default(0)

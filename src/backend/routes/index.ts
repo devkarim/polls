@@ -1,22 +1,27 @@
+import { fetchPollByCode } from './../db/polls';
 import * as trpc from '@trpc/server';
 import { z } from 'zod';
+import { createPoll } from '../db/polls';
 
 export const appRouter = trpc
   .router()
-  .query('get-data', {
+  .query('get-poll', {
     input: z.object({
-      id: z.string(),
+      code: z.string(),
     }),
     resolve({ input }) {
-      return 'Hi';
+      const { code } = input;
+      return fetchPollByCode(code);
     },
   })
-  .mutation('do-thing', {
+  .mutation('make-poll', {
     input: z.object({
-      id: z.string(),
+      header: z.string(),
+      answers: z.string().array(),
     }),
     async resolve({ input }) {
-      return 'Done';
+      const { header, answers } = input;
+      return createPoll(header, answers);
     },
   });
 

@@ -6,6 +6,7 @@ import SimpleCard from '../components/ui/SimpleCard';
 import Space from '../components/ui/Space';
 import { useState } from 'react';
 import MultipleInput from '../components/ui/MultipleInput';
+import { trpc } from '../services/api/trpc';
 
 interface PollCreationData {
   header: string;
@@ -21,6 +22,8 @@ const HomePage: NextPage = () => {
   const [pollCreation, setPollCreation] =
     useState<PollCreationData>(initialPollCreation);
 
+  const pollMutation = trpc.useMutation(['make-poll']);
+
   const updateHeader = (header: string) =>
     setPollCreation((prev) => {
       return { ...prev, header };
@@ -28,12 +31,11 @@ const HomePage: NextPage = () => {
 
   const updateAnswers = (answers: string[]) =>
     setPollCreation((prev) => {
-      console.log(answers);
       return { ...prev, answers };
     });
 
   const createPollClick = () => {
-    console.log(pollCreation);
+    pollMutation.mutate(pollCreation);
   };
 
   return (
@@ -56,7 +58,11 @@ const HomePage: NextPage = () => {
             onChange={(answers) => updateAnswers(answers)}
           />
           <Space size="2xl" />
-          <Button className="w-full" onClick={createPollClick}>
+          <Button
+            className="w-full"
+            onClick={createPollClick}
+            disabled={pollMutation.isLoading}
+          >
             Create
           </Button>
         </div>
