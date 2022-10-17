@@ -7,7 +7,7 @@ export const createPoll = (
   supportsMultiVote: boolean = false
 ) => {
   const answersInsertion = answers.map((a) => ({ title: a }));
-  const code = nanoid(8);
+  const code = nanoid(11);
   return prisma.poll.create({
     data: {
       header,
