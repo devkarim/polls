@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Loading from '../components/ui/Loading';
+import VoteCard from '../features/polls/components/VoteCard';
 import { trpc } from '../services/api/trpc';
 
 const HomePage: NextPage = () => {
@@ -23,7 +24,7 @@ const HomePage: NextPage = () => {
 
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
-      Hi {data?.code}
+      <VoteCard poll={data} />
     </div>
   );
 };
