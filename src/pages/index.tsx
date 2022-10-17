@@ -7,6 +7,7 @@ import Space from '../components/ui/Space';
 import { useState } from 'react';
 import MultipleInput from '../components/ui/MultipleInput';
 import { trpc } from '../services/api/trpc';
+import { useRouter } from 'next/router';
 
 interface PollCreationData {
   header: string;
@@ -19,9 +20,9 @@ const initialPollCreation: PollCreationData = {
 };
 
 const HomePage: NextPage = () => {
+  const router = useRouter();
   const [pollCreation, setPollCreation] =
     useState<PollCreationData>(initialPollCreation);
-
   const pollMutation = trpc.useMutation(['make-poll']);
 
   const updateHeader = (header: string) =>
@@ -34,8 +35,9 @@ const HomePage: NextPage = () => {
       return { ...prev, answers };
     });
 
-  const createPollClick = () => {
-    pollMutation.mutate(pollCreation);
+  const createPollClick = async () => {
+    const poll = await pollMutation.mutateAsync(pollCreation);
+    router.push(`/${poll.code}`);
   };
 
   return (
