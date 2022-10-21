@@ -17,6 +17,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
   poll,
   onAnswerChange,
   onVote,
+  children,
 }) => {
   const { header, answers, createdAt } = poll;
   const actualCreatedAt = new Date(createdAt as unknown as string);
@@ -52,6 +53,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
       <Button className="w-full h-12 text-xl" onClick={onVote}>
         Vote
       </Button>
+      {children}
     </SimpleCard>
   );
 };

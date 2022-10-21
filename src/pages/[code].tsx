@@ -15,6 +15,7 @@ const HomePage: NextPage = () => {
   });
   const voteMutation = trpc.useMutation(['vote-poll']);
   const [chosenAnsId, setChosenAnswerId] = useState<string | null>(null);
+  const [err, setError] = useState<string | null>(null);
 
   if (isLoading) return <Loading />;
 
@@ -30,15 +31,23 @@ const HomePage: NextPage = () => {
   };
 
   const vote = async () => {
-    if (!chosenAnsId) return;
+    setError(null);
+    if (!chosenAnsId) return setError('Please choose an answer to vote for.');
     const { id: pollId } = data;
     const res = await voteMutation.mutateAsync({ id: chosenAnsId, pollId });
-    console.log(res);
+    if (!res) return setError('Unable to vote, unexpected error.');
+    if (res.success) {
+      // TODO: navigate to results page
+    } else {
+      setError(res.message || 'Unable to vote, unexpected error.');
+    }
   };
 
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
-      <VoteCard poll={data} onAnswerChange={onAnswerChange} onVote={vote} />
+      <VoteCard poll={data} onAnswerChange={onAnswerChange} onVote={vote}>
+        {err && <p className="mt-6 text-red-500 text-center">{err}</p>}
+      </VoteCard>
     </div>
   );
 };

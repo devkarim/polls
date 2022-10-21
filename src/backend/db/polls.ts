@@ -26,30 +26,28 @@ export const fetchPollByCode = (code: string) => {
   });
 };
 
-export const voteAnswer = async (
-  id: string,
+export const checkIfIPVotedBefore = async (
   pollId: string,
   ipAddress: string
 ) => {
   const poll = await prisma.poll.findFirst({ where: { id: pollId } });
   if (!poll) return;
-  const hasIpVotedBefore = await checkOneHashInHashes(
-    ipAddress,
-    poll.ipAddresses
-  );
-  if (hasIpVotedBefore)
-    return {
-      success: false,
-      message: 'IP address has voted before for this poll.',
-    };
+
+  return checkOneHashInHashes(ipAddress, poll.ipAddresses);
+};
+
+export const voteAnswer = async (
+  id: string,
+  pollId: string,
+  ipAddress: string
+) => {
   const hashedIpAddress = await hashString(ipAddress);
   await prisma.poll.update({
     where: { id: pollId },
     data: { ipAddresses: { push: hashedIpAddress } },
   });
-  const answer = await prisma.answer.update({
+  return prisma.answer.update({
     where: { id },
     data: { votes: { increment: 1 } },
   });
-  return { success: true, answer };
 };

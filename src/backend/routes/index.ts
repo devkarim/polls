@@ -1,4 +1,8 @@
-import { fetchPollByCode, voteAnswer } from './../db/polls';
+import {
+  fetchPollByCode,
+  voteAnswer,
+  checkIfIPVotedBefore,
+} from './../db/polls';
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
@@ -49,8 +53,16 @@ export const appRouter = createRouter()
     }),
     async resolve({ input, ctx }) {
       const { id, pollId } = input;
-      console.log('IP Address:', ctx.ipAddress);
-      return voteAnswer(id, pollId, ctx.ipAddress);
+      const { ipAddress } = ctx;
+      console.log('IP Address:', ipAddress);
+      const hasIPVotedBefore = await checkIfIPVotedBefore(pollId, ipAddress);
+      if (hasIPVotedBefore)
+        return {
+          success: false,
+          message: 'Your IP address has voted for this poll before.',
+        };
+      const answer = await voteAnswer(id, pollId, ipAddress);
+      return { success: true, answer };
     },
   });
 
