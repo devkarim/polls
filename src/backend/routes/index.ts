@@ -10,7 +10,7 @@ import { createPoll } from '../db/polls';
 
 export async function createContext(opts: trpcNext.CreateNextContextOptions) {
   const { req } = opts;
-  console.log('Headers', req.headers);
+  // console.log('Headers', req.headers);
   const forwarded = req.headers['x-forwarded-for'] as string | undefined;
   const ipAddress = forwarded
     ? forwarded.split(/, /)[0]
@@ -55,7 +55,7 @@ export const appRouter = createRouter()
     async resolve({ input, ctx }) {
       const { id, pollId } = input;
       const { ipAddress } = ctx;
-      console.log('IP Address:', ipAddress);
+      // console.log('IP Address:', ipAddress);
       const hasIPVotedBefore = await checkIfIPVotedBefore(pollId, ipAddress);
       if (hasIPVotedBefore)
         return {
