@@ -9,9 +9,15 @@ import { timeSince } from '@/helpers/utils';
 interface VoteCardProps {
   children?: React.ReactNode;
   poll: Poll & { answers: Answer[] };
+  onAnswerChange?: (id: string) => any;
+  onVote?: () => any;
 }
 
-const VoteCard: React.FC<VoteCardProps> = ({ poll }) => {
+const VoteCard: React.FC<VoteCardProps> = ({
+  poll,
+  onAnswerChange,
+  onVote,
+}) => {
   const { header, answers, createdAt } = poll;
   const actualCreatedAt = new Date(createdAt as unknown as string);
 
@@ -30,7 +36,12 @@ const VoteCard: React.FC<VoteCardProps> = ({ poll }) => {
       {answers.map((a) => {
         return (
           <div key={a.id}>
-            <RadioButton id={a.id} value={a.title} name="answers">
+            <RadioButton
+              id={a.id}
+              value={a.title}
+              name="answers"
+              onChange={() => onAnswerChange && onAnswerChange(a.id)}
+            >
               {a.title}
             </RadioButton>
             <Space />
@@ -38,7 +49,9 @@ const VoteCard: React.FC<VoteCardProps> = ({ poll }) => {
         );
       })}
       <Space size="2xl" />
-      <Button className="w-full h-12 text-xl">Vote</Button>
+      <Button className="w-full h-12 text-xl" onClick={onVote}>
+        Vote
+      </Button>
     </SimpleCard>
   );
 };

@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Loading from '../components/ui/Loading';
 import VoteCard from '../features/polls/components/VoteCard';
 import { trpc } from '../services/api/trpc';
@@ -12,6 +13,7 @@ const HomePage: NextPage = () => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+  const [chosenAnsId, setChosenAnswerId] = useState<string | null>(null);
 
   if (isLoading) return <Loading />;
 
@@ -24,7 +26,15 @@ const HomePage: NextPage = () => {
 
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
-      <VoteCard poll={data} />
+      <VoteCard
+        poll={data}
+        onAnswerChange={(ansId) => {
+          setChosenAnswerId(ansId);
+        }}
+        onVote={() => {
+          console.log('vote mechanism');
+        }}
+      />
     </div>
   );
 };

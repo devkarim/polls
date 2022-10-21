@@ -1,24 +1,26 @@
-interface RadioButtonProps {
-  id: string;
-  value: string;
-  name: string;
+import classNames from 'classnames';
+import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+
+interface RadioButtonProps
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   children?: React.ReactNode;
 }
 
 const RadioButton: React.FC<RadioButtonProps> = ({
   id,
-  value,
-  name,
+  className,
   children,
+  ...props
 }) => {
   return (
     <div className="flex items-center">
       <input
         type="radio"
-        id={id}
-        value={value}
-        name={name}
-        className="w-6 h-6"
+        className={classNames('w-6 h-6', className)}
+        {...props}
       />
       <label htmlFor={id} className="ml-2 text-2xl">
         {children}
