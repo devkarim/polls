@@ -38,12 +38,13 @@ export const appRouter = createRouter()
   })
   .mutation('make-poll', {
     input: z.object({
-      header: z.string(),
-      answers: z.string().array(),
+      header: z.string().min(2, 'Header must be at least 2 character long.'),
+      answers: z.string().array().min(2, 'Poll must have at least 2 answers.'),
     }),
     async resolve({ input }) {
       const { header, answers } = input;
-      return createPoll(header, answers);
+      const poll = await createPoll(header, answers);
+      return { success: true, poll };
     },
   })
   .mutation('vote-poll', {
@@ -60,7 +61,7 @@ export const appRouter = createRouter()
         return {
           success: false,
           message: 'Your IP address has voted for this poll before.',
-        };
+        }; // TODO: throw TRPCClientError instead
       const answer = await voteAnswer(id, pollId, ipAddress);
       return { success: true, answer };
     },

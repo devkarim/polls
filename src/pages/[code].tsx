@@ -1,8 +1,10 @@
+import classNames from 'classnames';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Loading from '../components/ui/Loading';
 import VoteCard from '../features/polls/components/VoteCard';
+import useInfo from '../helpers/hooks/useInfo';
 import { trpc } from '../services/api/trpc';
 
 const HomePage: NextPage = () => {
@@ -15,7 +17,7 @@ const HomePage: NextPage = () => {
   });
   const voteMutation = trpc.useMutation(['vote-poll']);
   const [chosenAnsId, setChosenAnswerId] = useState<string | null>(null);
-  const [err, setError] = useState<string | null>(null);
+  const { msg, color, setError, setInfo, resetAll } = useInfo();
 
   if (isLoading) return <Loading />;
 
@@ -31,13 +33,14 @@ const HomePage: NextPage = () => {
   };
 
   const vote = async () => {
-    setError(null);
+    resetAll();
     if (!chosenAnsId) return setError('Please choose an answer to vote for.');
     const { id: pollId } = data;
     const res = await voteMutation.mutateAsync({ id: chosenAnsId, pollId });
     if (!res) return setError('Unable to vote, unexpected error.');
     if (res.success) {
       // TODO: navigate to results page
+      setInfo('Voted!');
     } else {
       setError(res.message || 'Unable to vote, unexpected error.');
     }
@@ -46,7 +49,7 @@ const HomePage: NextPage = () => {
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
       <VoteCard poll={data} onAnswerChange={onAnswerChange} onVote={vote}>
-        {err && <p className="mt-6 text-red-500 text-center">{err}</p>}
+        {msg && <p className={classNames('mt-6 text-center', color)}>{msg}</p>}
       </VoteCard>
     </div>
   );

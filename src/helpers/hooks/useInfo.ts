@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getErrorMessage } from '@/services/api';
+// import { getErrorMessage } from '@/services/api';
 
 const useInfo = (initialState: BaseInfo | null = null) => {
   const [info, setInfoState] = useState(initialState);
@@ -8,18 +8,18 @@ const useInfo = (initialState: BaseInfo | null = null) => {
   const setError = (err: any) => {
     if (!err) return resetAll();
     setInfoState({
-      message: getErrorMessage(err),
+      message: err,
       color: 'text-red-500',
       error: true,
     });
   };
 
   const setInfo = (msg: any) =>
-    setInfoState({ message: msg, color: 'text-green-500' });
+    setInfoState({ message: msg, color: 'text-green-600' });
 
-  const getMsg = () => info?.message;
+  const msg = info?.message;
 
-  const getColor = () => info?.color;
+  const color = info?.color;
 
   const resetRequest = () => {
     setLoading(true);
@@ -34,8 +34,8 @@ const useInfo = (initialState: BaseInfo | null = null) => {
   return {
     info,
     setInfo,
-    getMsg,
-    getColor,
+    msg,
+    color,
     setError,
     setInfoState,
     isLoading,

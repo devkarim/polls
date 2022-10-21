@@ -32,7 +32,6 @@ export const checkIfIPVotedBefore = async (
 ) => {
   const poll = await prisma.poll.findFirst({ where: { id: pollId } });
   if (!poll) return;
-
   return checkOneHashInHashes(ipAddress, poll.ipAddresses);
 };
 

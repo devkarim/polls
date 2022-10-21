@@ -8,6 +8,9 @@ import { useState } from 'react';
 import MultipleInput from '../components/ui/MultipleInput';
 import { trpc } from '../services/api/trpc';
 import { useRouter } from 'next/router';
+import useInfo from '../helpers/hooks/useInfo';
+import classNames from 'classnames';
+import { TRPCClientError } from '@trpc/client';
 
 interface PollCreationData {
   header: string;
@@ -24,6 +27,7 @@ const HomePage: NextPage = () => {
   const [pollCreation, setPollCreation] =
     useState<PollCreationData>(initialPollCreation);
   const pollMutation = trpc.useMutation(['make-poll']);
+  const { msg, color, setError } = useInfo();
 
   const updateHeader = (header: string) =>
     setPollCreation((prev) => {
@@ -36,8 +40,17 @@ const HomePage: NextPage = () => {
     });
 
   const createPollClick = async () => {
-    const poll = await pollMutation.mutateAsync(pollCreation);
-    router.push(`/${poll.code}`);
+    try {
+      const { poll } = await pollMutation.mutateAsync(pollCreation);
+      if (poll) {
+        router.push(`/${poll.code}`);
+      }
+    } catch (err) {
+      // TODO: make a utility function to format this error
+      if (err instanceof TRPCClientError) {
+        setError((JSON.parse(err.message) as any)[0].message);
+      }
+    }
   };
 
   return (
@@ -68,6 +81,7 @@ const HomePage: NextPage = () => {
             Create
           </Button>
         </div>
+        {msg && <p className={classNames('mt-6 text-center', color)}>{msg}</p>}
       </SimpleCard>
     </div>
   );
