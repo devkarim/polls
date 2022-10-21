@@ -13,6 +13,7 @@ const HomePage: NextPage = () => {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+  const voteMutation = trpc.useMutation(['vote-poll']);
   const [chosenAnsId, setChosenAnswerId] = useState<string | null>(null);
 
   if (isLoading) return <Loading />;
@@ -24,17 +25,20 @@ const HomePage: NextPage = () => {
       </div>
     );
 
+  const onAnswerChange = (ansId: string) => {
+    setChosenAnswerId(ansId);
+  };
+
+  const vote = async () => {
+    if (!chosenAnsId) return;
+    const { id: pollId } = data;
+    const res = await voteMutation.mutateAsync({ id: chosenAnsId, pollId });
+    console.log(res);
+  };
+
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
-      <VoteCard
-        poll={data}
-        onAnswerChange={(ansId) => {
-          setChosenAnswerId(ansId);
-        }}
-        onVote={() => {
-          console.log('vote mechanism');
-        }}
-      />
+      <VoteCard poll={data} onAnswerChange={onAnswerChange} onVote={vote} />
     </div>
   );
 };
