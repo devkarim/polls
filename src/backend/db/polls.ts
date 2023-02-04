@@ -5,12 +5,15 @@ import { prisma } from '@/services/db/prisma';
 export const createPoll = (
   header: string,
   answers: string[],
+  author?: string | null,
   supportsMultiVote: boolean = false
 ) => {
   const answersInsertion = answers.map((a) => ({ title: a }));
+  const authorUUID = nanoid();
   const code = nanoid(11);
   return prisma.poll.create({
     data: {
+      author: author ?? authorUUID,
       header,
       code,
       supportsMultiVote,

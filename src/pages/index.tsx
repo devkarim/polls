@@ -11,13 +11,17 @@ import { useRouter } from 'next/router';
 import useInfo from '../helpers/hooks/useInfo';
 import classNames from 'classnames';
 import { TRPCClientError } from '@trpc/client';
+import { useAppDispatch } from '../state/hooks';
+import { saveToken } from '../state/reducers/local';
 
 interface PollCreationData {
   header: string;
   answers: string[];
+  author: string;
 }
 
 const initialPollCreation: PollCreationData = {
+  author: '',
   header: '',
   answers: [],
 };
@@ -28,6 +32,7 @@ const HomePage: NextPage = () => {
     useState<PollCreationData>(initialPollCreation);
   const pollMutation = trpc.useMutation(['make-poll']);
   const { msg, color, setError } = useInfo();
+  const dispatch = useAppDispatch();
 
   const updateHeader = (header: string) =>
     setPollCreation((prev) => {
@@ -41,8 +46,13 @@ const HomePage: NextPage = () => {
 
   const createPollClick = async () => {
     try {
-      const { poll } = await pollMutation.mutateAsync(pollCreation);
+      const author = localStorage.getItem('token');
+      const { poll } = await pollMutation.mutateAsync({
+        ...pollCreation,
+        author,
+      });
       if (poll) {
+        await dispatch(saveToken(poll.author));
         router.push(`/${poll.code}`);
       }
     } catch (err) {

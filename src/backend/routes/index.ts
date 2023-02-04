@@ -7,6 +7,7 @@ import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 import { createPoll } from '../db/polls';
+import { nanoid } from 'nanoid';
 
 export async function createContext(opts: trpcNext.CreateNextContextOptions) {
   const { req } = opts;
@@ -40,10 +41,11 @@ export const appRouter = createRouter()
     input: z.object({
       header: z.string().min(2, 'Header must be at least 2 characters long.'),
       answers: z.string().array().min(2, 'Poll must have at least 2 answers.'),
+      author: z.string().optional().nullable(),
     }),
     async resolve({ input }) {
-      const { header, answers } = input;
-      const poll = await createPoll(header, answers);
+      const { header, answers, author } = input;
+      const poll = await createPoll(header, answers, author);
       return { success: true, poll };
     },
   })
