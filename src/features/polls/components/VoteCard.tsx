@@ -12,12 +12,14 @@ interface VoteCardProps {
   poll: Poll & { answers: Answer[] };
   onAnswerChange?: (id: string) => any;
   onVote?: () => any;
+  isLoading?: boolean;
 }
 
 const VoteCard: React.FC<VoteCardProps> = ({
   poll,
   onAnswerChange,
   onVote,
+  isLoading,
   children,
 }) => {
   const { header, answers, createdAt } = poll;
@@ -30,12 +32,12 @@ const VoteCard: React.FC<VoteCardProps> = ({
   return (
     <SimpleCard className="p-8 w-full min-h-[50%]">
       <div className="flex items-center">
-        <p className="text-2xl md:text-6xl">{header}</p>
+        <p className="text-xl md:text-4xl">{header}</p>
         <HSpace />
-        <p className="opacity-60 text-lg">· {timeAgo} ago</p>
+        <p className="opacity-60 text-md md:text-lg">· {timeAgo} ago</p>
       </div>
       <Space size="2xl" />
-      <p className="text-lg md:text-2xl opacity-60">Choose an answer:</p>
+      <p className="text-lg md:text-xl opacity-60">Choose an answer:</p>
       <Space size="2xl" />
       {answers.map((a) => {
         return (
@@ -53,7 +55,11 @@ const VoteCard: React.FC<VoteCardProps> = ({
         );
       })}
       <Space size="2xl" />
-      <Button className="w-full h-12 text-xl" onClick={onVote}>
+      <Button
+        className="w-full md:h-12 md:text-xl"
+        onClick={onVote}
+        isLoading={isLoading}
+      >
         Vote
       </Button>
       {children}

@@ -22,7 +22,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         className={classNames('w-6 h-6', className)}
         {...props}
       />
-      <label htmlFor={id} className="ml-2 text-lg md:text-2xl">
+      <label htmlFor={id} className="ml-2 text-lg md:text-xl">
         {children}
       </label>
     </div>

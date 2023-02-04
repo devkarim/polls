@@ -1,5 +1,9 @@
 import classNames from 'classnames';
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { FaSpinner } from 'react-icons/fa';
+import Loading from './Loading';
+import Pulse from './Pulse';
+import Spinner from './Spinner';
 
 interface ButtonProps
   extends DetailedHTMLProps<
@@ -10,6 +14,7 @@ interface ButtonProps
   type?: 'button' | 'submit' | 'reset';
   variant?: 'solid' | 'outline';
   className?: string;
+  isLoading?: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
 }
@@ -21,6 +26,8 @@ const Button: React.FC<ButtonProps> = ({
   className,
   children,
   onClick,
+  isLoading,
+  disabled,
   ...props
 }) => {
   return (
@@ -33,13 +40,15 @@ const Button: React.FC<ButtonProps> = ({
             variant == 'solid',
           'border-2 border-black hover:bg-black rounded-lg hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black':
             variant == 'outline',
+          'cursor-default': isLoading,
         },
         className
       )}
       onClick={onClick}
+      disabled={isLoading || disabled}
       {...props}
     >
-      {children}
+      {isLoading ? <Spinner size={26} /> : children}
     </button>
   );
 };

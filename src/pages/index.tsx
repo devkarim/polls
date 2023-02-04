@@ -86,7 +86,7 @@ const HomePage: NextPage = () => {
           <Button
             className="w-full"
             onClick={createPollClick}
-            disabled={pollMutation.isLoading}
+            isLoading={pollMutation.isLoading}
           >
             Create
           </Button>

@@ -1,6 +1,7 @@
 import { Answer } from '@prisma/client';
 import Space from '@/components/ui/Space';
 import HSpace from '../../../components/ui/HSpace';
+import Button from '../../../components/ui/Button';
 
 interface VoteCardProps {
   children?: React.ReactNode;
@@ -18,11 +19,11 @@ const VoteCard: React.FC<VoteCardProps> = ({ answer, totalVotes }) => {
   const percent = (votes / totalVotes) * 100;
 
   return (
-    <div className="p-4 w-full min-h-[50%]">
+    <div className="p-4 w-full">
       <div className="flex items-center">
-        <p className="text-2xl">{title}</p>
+        <p className="text-lg md:text-xl">{title}</p>
         <HSpace />
-        <p className="opacity-60 text-lg">· {percent} %</p>
+        <p className="opacity-60 text-md md:text-lg">· {percent} %</p>
       </div>
       <Space />
       <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded-xl">

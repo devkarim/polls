@@ -8,6 +8,7 @@ import Input from '../../components/ui/Input';
 import Loading from '../../components/ui/Loading';
 import SimpleCard from '../../components/ui/SimpleCard';
 import Space from '../../components/ui/Space';
+import Tooltip from '../../components/ui/Tooltip';
 import { APP_URL } from '../../config/constants';
 import VoteCard from '../../features/polls/components/VoteCard';
 import useInfo from '../../helpers/hooks/useInfo';
@@ -24,6 +25,7 @@ const PollPage: NextPage = () => {
   const voteMutation = trpc.useMutation(['vote-poll']);
   const [chosenAnsId, setChosenAnswerId] = useState<string | null>(null);
   const { msg, color, setError, setInfo, resetAll } = useInfo();
+  const [copied, setCopied] = useState(false);
 
   if (isLoading) return <Loading />;
 
@@ -62,23 +64,29 @@ const PollPage: NextPage = () => {
 
   const copyLink = () => {
     navigator.clipboard.writeText(`${APP_URL}/${code}`);
+    setCopied(true);
   };
 
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 p-8 md:px-[10%] space-y-12 md:space-y-0 md:space-x-12 flex flex-col md:flex-row justify-center items-center">
-      <VoteCard poll={data} onAnswerChange={onAnswerChange} onVote={vote}>
+      <VoteCard
+        poll={data}
+        onAnswerChange={onAnswerChange}
+        onVote={vote}
+        isLoading={voteMutation.isLoading}
+      >
         {msg && <p className={classNames('mt-6 text-center', color)}>{msg}</p>}
       </VoteCard>
       <SimpleCard className="p-8 w-full min-h-[50%]">
-        <h3 className="text-center">Other options</h3>
+        <p className="text-2xl md:text-4xl text-center">Other options</p>
         <Space size="3xl" />
         <div>
-          <Button className="w-full text-xl h-11" onClick={resultsClick}>
+          <Button className="w-full md:text-xl md:h-11" onClick={resultsClick}>
             Results
           </Button>
           <Space />
           <Button
-            className="w-full text-xl h-11 mb-24 xl:mb-0"
+            className="w-full md:text-xl md:h-11 mb-24 xl:mb-0"
             onClick={makeNewPollClick}
           >
             Make a new poll
@@ -91,11 +99,23 @@ const PollPage: NextPage = () => {
             defaultValue={`${APP_URL}/${code}`}
             disabled={true}
             rightIcon={
-              <FaShareAlt
-                size={21}
-                className="cursor-pointer"
-                onClick={copyLink}
-              />
+              // <div>
+              /* <FaShareAlt
+                  size={21}
+                  className="cursor-pointer"
+                  onClick={copyLink}
+                /> */
+              // </div>
+              <div>
+                <Tooltip text={copied ? 'Copied' : 'Copy'}>
+                  <FaShareAlt
+                    data-tooltip-target="tooltip-default"
+                    size={21}
+                    className="cursor-pointer"
+                    onClick={copyLink}
+                  />
+                </Tooltip>
+              </div>
             }
           />
         </div>

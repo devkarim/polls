@@ -1,9 +1,11 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import Button from '../../components/ui/Button';
 import Loading from '../../components/ui/Loading';
 import SimpleCard from '../../components/ui/SimpleCard';
 import Space from '../../components/ui/Space';
+import TextLink from '../../components/ui/TextLink';
 import AnswerCard from '../../features/polls/components/AnswerCard';
 import { trpc } from '../../services/api/trpc';
 
@@ -32,13 +34,21 @@ const PollResultsPage: NextPage = () => {
 
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
-      <h2>Results</h2>
+      <p className="text-4xl md:text-5xl">Results</p>
       <Space size="3xl" />
       <SimpleCard className="p-6 max-h-[75%] w-full max-w-xl overflow-auto">
         {poll.answers.map((a) => (
           <AnswerCard key={a.id} answer={a} totalVotes={totalVotes} />
         ))}
       </SimpleCard>
+      <Space size="xl" />
+      <Button
+        variant="outline"
+        className="text-lg md:text-xl"
+        onClick={() => router.push(`/${poll.code}`)}
+      >
+        Back to Poll
+      </Button>
     </div>
   );
 };
