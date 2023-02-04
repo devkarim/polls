@@ -22,6 +22,12 @@ export const createPoll = (
   });
 };
 
+export const getPollById = (id: string) => {
+  return prisma.poll.findFirst({
+    where: { id },
+  });
+};
+
 export const fetchPollByCode = (code: string) => {
   return prisma.poll.findFirst({
     where: { code },

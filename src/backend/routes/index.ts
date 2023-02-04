@@ -5,6 +5,7 @@ import {
   closeVote,
   openVote,
   toggleVote,
+  getPollById,
 } from './../db/polls';
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
@@ -60,6 +61,12 @@ export const appRouter = createRouter()
     async resolve({ input, ctx }) {
       const { id, pollId } = input;
       const { ipAddress } = ctx;
+      const poll = await getPollById(pollId);
+      if (!poll)
+        return {
+          success: false,
+          message: 'Poll does not exist anymore.',
+        };
       // console.log('IP Address:', ipAddress);
       const hasIPVotedBefore = await checkIfIPVotedBefore(pollId, ipAddress);
       if (hasIPVotedBefore)
@@ -67,6 +74,11 @@ export const appRouter = createRouter()
         return {
           success: false,
           message: 'Your IP address has voted for this poll before.',
+        };
+      if (poll?.status == 'CLOSED')
+        return {
+          success: false,
+          message: 'Vote is closed.',
         };
       const answer = await voteAnswer(id, pollId, ipAddress);
       return { success: true, answer };
