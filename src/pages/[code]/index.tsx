@@ -71,12 +71,12 @@ const PollPage: NextPage = () => {
   };
 
   const closeOpenPoll = async () => {
-    if (!client) return;
+    if (!client || !data) return;
     const res = await updateMutation.mutateAsync({
       id: data.id,
       author: client,
     });
-    const correctVerb = data?.status == 'OPEN' ? 'Close' : 'Open';
+    const correctVerb = data.status == 'OPEN' ? 'Close' : 'Open';
     if (!res)
       return toast.error(
         `Unable to ${correctVerb.toLowerCase()} vote, please try again later.`
