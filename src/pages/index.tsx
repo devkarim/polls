@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import { TRPCClientError } from '@trpc/client';
 import { useAppDispatch } from '../state/hooks';
 import { saveToken } from '../state/reducers/local';
+import Copyright from '../components/Copyright';
 
 interface PollCreationData {
   header: string;
@@ -67,7 +68,7 @@ const HomePage: NextPage = () => {
     <div className="min-h-screen md:h-screen md:min-h-0 flex flex-col items-center justify-center p-8">
       <h2>Create a poll</h2>
       <Space size="3xl" />
-      <SimpleCard className="p-6 max-h-[75%] w-full max-w-xl overflow-auto">
+      <SimpleCard className="p-6 max-h-[65%] w-full max-w-xl overflow-auto">
         <div className="flex flex-col items-start">
           <Input
             id="header"
@@ -93,6 +94,7 @@ const HomePage: NextPage = () => {
         </div>
         {msg && <p className={classNames('mt-6 text-center', color)}>{msg}</p>}
       </SimpleCard>
+      <Copyright className="pt-16" />
     </div>
   );
 };

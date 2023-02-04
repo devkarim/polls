@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+import Copyright from '../../components/Copyright';
 import Button from '../../components/ui/Button';
 import Loading from '../../components/ui/Loading';
 import SimpleCard from '../../components/ui/SimpleCard';
@@ -49,6 +50,7 @@ const PollResultsPage: NextPage = () => {
       >
         Back to Poll
       </Button>
+      <Copyright className="pt-20" />
     </div>
   );
 };

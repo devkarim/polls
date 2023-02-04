@@ -16,6 +16,7 @@ import useToken from '../../helpers/hooks/useClient';
 import { trpc } from '../../services/api/trpc';
 import useClient from '../../helpers/hooks/useClient';
 import { toast, Toaster } from 'react-hot-toast';
+import Copyright from '../../components/Copyright';
 
 const PollPage: NextPage = () => {
   const router = useRouter();
@@ -104,67 +105,72 @@ const PollPage: NextPage = () => {
   };
 
   return (
-    <div className="min-h-screen md:h-screen md:min-h-0 p-8 md:px-[10%] space-y-12 md:space-y-0 md:space-x-12 flex flex-col md:flex-row justify-center items-center">
-      <VoteCard
-        poll={data}
-        onAnswerChange={onAnswerChange}
-        onVote={vote}
-        isLoading={voteMutation.isLoading}
-      >
-        {msg && <p className={classNames('mt-6 text-center', color)}>{msg}</p>}
-      </VoteCard>
-      <SimpleCard className="p-8 w-full min-h-[50%]">
-        <p className="text-2xl md:text-4xl text-center">Other options</p>
-        <Space size="3xl" />
-        <div>
-          <Button
-            className="w-full md:text-lg md:h-10"
-            onClick={navigateToResults}
-          >
-            Results
-          </Button>
-          <Space />
-          <Button
-            className="w-full md:text-lg md:h-10 xl:mb-0"
-            onClick={makeNewPollClick}
-          >
-            Make a new poll
-          </Button>
-          {data.author == client && (
-            <div>
-              <Space />
-              <Button
-                className="w-full md:text-lg md:h-10 xl:mb-0"
-                onClick={closeOpenPoll}
-                isLoading={updateMutation.isLoading || isRefetching}
-              >
-                {data.status == 'CLOSED' ? 'Open' : 'Close'} this poll
-              </Button>
-            </div>
+    <div className="min-h-screen md:h-screen md:min-h-0">
+      <div className="h-[90%] p-8 md:px-[10%] space-y-12 md:space-y-0 md:space-x-12 flex flex-col md:flex-row justify-center items-center">
+        <VoteCard
+          poll={data}
+          onAnswerChange={onAnswerChange}
+          onVote={vote}
+          isLoading={voteMutation.isLoading}
+        >
+          {msg && (
+            <p className={classNames('mt-6 text-center', color)}>{msg}</p>
           )}
-        </div>
-        <div className="mt-24">
-          <p className="text-lg">Share link:</p>
-          <Space />
-          <Input
-            defaultValue={`${APP_URL}/${code}`}
-            disabled={true}
-            rightIcon={
+        </VoteCard>
+        <SimpleCard className="p-8 w-full min-h-[50%]">
+          <p className="text-2xl md:text-4xl text-center">Other options</p>
+          <Space size="3xl" />
+          <div>
+            <Button
+              className="w-full md:text-lg md:h-10"
+              onClick={navigateToResults}
+            >
+              Results
+            </Button>
+            <Space />
+            <Button
+              className="w-full md:text-lg md:h-10 xl:mb-0"
+              onClick={makeNewPollClick}
+            >
+              Make a new poll
+            </Button>
+            {data.author == client && (
               <div>
-                <Tooltip text={copied ? 'Copied' : 'Copy'}>
-                  <FaShareAlt
-                    data-tooltip-target="tooltip-default"
-                    size={21}
-                    className="cursor-pointer"
-                    onClick={copyLink}
-                  />
-                </Tooltip>
+                <Space />
+                <Button
+                  className="w-full md:text-lg md:h-10 xl:mb-0"
+                  onClick={closeOpenPoll}
+                  isLoading={updateMutation.isLoading || isRefetching}
+                >
+                  {data.status == 'CLOSED' ? 'Open' : 'Close'} this poll
+                </Button>
               </div>
-            }
-          />
-        </div>
+            )}
+          </div>
+          <div className="mt-24">
+            <p className="text-lg">Share link:</p>
+            <Space />
+            <Input
+              defaultValue={`${APP_URL}/${code}`}
+              disabled={true}
+              rightIcon={
+                <div>
+                  <Tooltip text={copied ? 'Copied' : 'Copy'}>
+                    <FaShareAlt
+                      data-tooltip-target="tooltip-default"
+                      size={21}
+                      className="cursor-pointer"
+                      onClick={copyLink}
+                    />
+                  </Tooltip>
+                </div>
+              }
+            />
+          </div>
+        </SimpleCard>
         <Toaster />
-      </SimpleCard>
+      </div>
+      <Copyright />
     </div>
   );
 };
