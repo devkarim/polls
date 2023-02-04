@@ -1,5 +1,7 @@
 import React, { memo } from 'react';
 
+// Thanks to https://codesandbox.io/embed/github/koki-develop/tailwindcss-tooltip-example/tree/main/?module=%2Fsrc%2FTooltip.tsx
+
 export type TooltipProps = {
   children: React.ReactNode;
   text: string;
