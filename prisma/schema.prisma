@@ -12,6 +12,7 @@ datasource db {
 
 model Poll {
   id                String   @id @default(cuid())
+  author            String
   ipAddresses       String[] @default([])
   createdAt         DateTime @default(now())
   code              String   @unique

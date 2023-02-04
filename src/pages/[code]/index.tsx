@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { FaShare, FaShareAlt } from 'react-icons/fa';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import Loading from '../../components/ui/Loading';
@@ -59,6 +60,10 @@ const PollPage: NextPage = () => {
     router.push(`/`);
   };
 
+  const copyLink = () => {
+    navigator.clipboard.writeText(`${APP_URL}/${code}`);
+  };
+
   return (
     <div className="min-h-screen md:h-screen md:min-h-0 p-8 md:px-[10%] space-y-12 md:space-y-0 md:space-x-12 flex flex-col md:flex-row justify-center items-center">
       <VoteCard poll={data} onAnswerChange={onAnswerChange} onVote={vote}>
@@ -82,7 +87,17 @@ const PollPage: NextPage = () => {
         <div className="mt-auto">
           <p className="text-lg">Share link:</p>
           <Space />
-          <Input defaultValue={`${APP_URL}/${code}`} disabled={true} />
+          <Input
+            defaultValue={`${APP_URL}/${code}`}
+            disabled={true}
+            rightIcon={
+              <FaShareAlt
+                size={21}
+                className="cursor-pointer"
+                onClick={copyLink}
+              />
+            }
+          />
         </div>
       </SimpleCard>
     </div>
