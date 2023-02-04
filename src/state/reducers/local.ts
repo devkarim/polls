@@ -10,7 +10,7 @@ const localSlice = createSlice({
   name: 'local',
   initialState,
   reducers: {
-    setToken(state, action: PayloadAction<string>) {
+    setToken(state, action: PayloadAction<string | null>) {
       state.token = action.payload;
     },
   },

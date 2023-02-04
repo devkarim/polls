@@ -56,7 +56,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
       })}
       <Space size="2xl" />
       <Button
-        className="w-full md:h-12 md:text-xl"
+        className="w-full md:h-10 md:text-xl"
         onClick={onVote}
         isLoading={isLoading}
       >

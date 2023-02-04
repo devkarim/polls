@@ -53,3 +53,33 @@ export const voteAnswer = async (
     data: { votes: { increment: 1 } },
   });
 };
+
+export const closeVote = async (id: string) => {
+  await prisma.poll.update({
+    where: { id },
+    data: { status: 'CLOSED' },
+  });
+  return true;
+};
+
+export const openVote = async (id: string) => {
+  await prisma.poll.update({
+    where: { id },
+    data: { status: 'OPEN' },
+  });
+  return true;
+};
+
+export const toggleVote = async (id: string, author: string) => {
+  const poll = await prisma.poll.findFirst({
+    where: { id },
+  });
+  if (!poll) return false;
+  if (poll.author != author) return false;
+  if (poll.status == 'OPEN') {
+    await closeVote(id);
+  } else {
+    await openVote(id);
+  }
+  return true;
+};

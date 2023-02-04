@@ -2,6 +2,9 @@ import {
   fetchPollByCode,
   voteAnswer,
   checkIfIPVotedBefore,
+  closeVote,
+  openVote,
+  toggleVote,
 } from './../db/polls';
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
@@ -67,6 +70,17 @@ export const appRouter = createRouter()
         };
       const answer = await voteAnswer(id, pollId, ipAddress);
       return { success: true, answer };
+    },
+  })
+  .mutation('vote-update', {
+    input: z.object({
+      id: z.string(),
+      author: z.string(),
+    }),
+    async resolve({ input, ctx }) {
+      const { id, author } = input;
+      const success = await toggleVote(id, author);
+      return { success };
     },
   });
 
