@@ -28,14 +28,14 @@ const VoteCard: React.FC<VoteCardProps> = ({
   }, [createdAt]);
 
   return (
-    <SimpleCard className="p-8 w-[50%]">
+    <SimpleCard className="p-8 w-full min-h-[50%]">
       <div className="flex items-center">
-        <h2>{header}</h2>
+        <p className="text-2xl md:text-6xl">{header}</p>
         <HSpace />
         <p className="opacity-60 text-lg">· {timeAgo} ago</p>
       </div>
       <Space size="2xl" />
-      <h5 className="opacity-60">Choose an answer:</h5>
+      <p className="text-lg md:text-2xl opacity-60">Choose an answer:</p>
       <Space size="2xl" />
       {answers.map((a) => {
         return (

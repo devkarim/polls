@@ -7,6 +7,8 @@ export interface InputProps extends FieldAttributes<any> {
   placeholder?: string;
   value?: string;
   label?: string;
+  defaultValue?: string;
+  disabled?: boolean;
   onChange?: (newValue: string) => void;
   type?: HTMLInputTypeAttribute;
   className?: string;
@@ -19,6 +21,8 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   value,
   label,
+  defaultValue,
+  disabled,
   onChange,
   type,
   icon,
@@ -57,7 +61,12 @@ const Input: React.FC<InputProps> = ({
       {form ? (
         <Field {...inputProps} {...props} />
       ) : (
-        <input onChange={(e) => onChange?.(e.target.value)} {...inputProps} />
+        <input
+          onChange={(e) => onChange?.(e.target.value)}
+          defaultValue={defaultValue}
+          disabled={disabled}
+          {...inputProps}
+        />
       )}
       {rightIcon && (
         <span

@@ -38,7 +38,7 @@ export const appRouter = createRouter()
   })
   .mutation('make-poll', {
     input: z.object({
-      header: z.string().min(2, 'Header must be at least 2 character long.'),
+      header: z.string().min(2, 'Header must be at least 2 characters long.'),
       answers: z.string().array().min(2, 'Poll must have at least 2 answers.'),
     }),
     async resolve({ input }) {
@@ -58,10 +58,11 @@ export const appRouter = createRouter()
       // console.log('IP Address:', ipAddress);
       const hasIPVotedBefore = await checkIfIPVotedBefore(pollId, ipAddress);
       if (hasIPVotedBefore)
+        // TODO: throw TRPCClientError instead
         return {
           success: false,
           message: 'Your IP address has voted for this poll before.',
-        }; // TODO: throw TRPCClientError instead
+        };
       const answer = await voteAnswer(id, pollId, ipAddress);
       return { success: true, answer };
     },

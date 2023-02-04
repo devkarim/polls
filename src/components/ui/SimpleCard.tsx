@@ -14,7 +14,7 @@ const SimpleCard: React.FC<SimpleCardProps> = ({
   return (
     <div
       className={classNames(
-        'border-2 border-black dark:border-white dark:border-opacity-20 border-opacity-20 rounded-md',
+        'flex flex-col border-2 border-black dark:border-white dark:border-opacity-20 border-opacity-20 rounded-md',
         className
       )}
       onClick={onClick}
