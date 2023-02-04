@@ -79,7 +79,7 @@ const PollPage: NextPage = () => {
     const correctVerb = data?.status == 'OPEN' ? 'Close' : 'Open';
     if (!res)
       return toast.error(
-        `Unable to ${correctVerb.toLowerCase()}, please try again later.`
+        `Unable to ${correctVerb.toLowerCase()} vote, please try again later.`
       );
     if (res.success) {
       toast.success(
@@ -92,7 +92,7 @@ const PollPage: NextPage = () => {
       );
     } else {
       toast.error(
-        `Unable to ${correctVerb.toLowerCase()}, please try again later.`
+        `Unable to ${correctVerb.toLowerCase()} vote, please try again later.`
       );
     }
     refetch();
